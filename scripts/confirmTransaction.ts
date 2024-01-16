@@ -9,7 +9,7 @@ dotenv.config();
 
 const RPC_URL = process.env.RPC_ENDPOINT_URL;
 const provider = new ethers.JsonRpcProvider(RPC_URL);
-const SAFE_ADDRESS = '';
+const SAFE_ADDRESS = '0x9b7a9C49280a6AEAB7b9375ac0Cb5BEFd861F75B';
 const owner1Signer = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
 
 const ethAdapter = new EthersAdapter({
@@ -17,24 +17,20 @@ const ethAdapter = new EthersAdapter({
   signerOrProvider: owner1Signer,
 });
 
-const safeApiKit = new SafeApiKit({
-  chainId: 11155111n, // set the correct chainId
-  // txServiceUrl: '',
+const safeService = new SafeApiKit({
+  chainId: 11155111n,
 });
 
-async function createTransaction(to: string, value: string) {
-  const destination = to;
-  const amount = ethers.parseUnits(value, 'ether').toString();
-
-  const safeTransactionData: MetaTransactionData = {
-    to: destination,
-    data: '0x',
-    value: amount,
-  };
-
-  const safeSdk = await Safe.create({ ethAdapter, safeAddress: SAFE_ADDRESS });
-
-  const safeTransaction = await safeSdk.createTransaction({
-    transactions: [safeTransactionData],
+async function confirmTransaction() {
+  const safeSdkOwner1 = await Safe.create({
+    ethAdapter,
+    safeAddress: SAFE_ADDRESS,
   });
 }
+
+confirmTransaction()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

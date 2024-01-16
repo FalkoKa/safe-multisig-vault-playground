@@ -44,7 +44,7 @@ async function main() {
   const safeAddress = await safeSdkOwner1.getAddress();
 
   console.log('Your Safe has been deployed:');
-  console.log(`https://app.safe.global/gor:${safeAddress}`);
+  console.log(`https://app.safe.global/sep:${safeAddress}`);
 }
 
 main()
