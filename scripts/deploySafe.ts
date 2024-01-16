@@ -39,6 +39,7 @@ async function main() {
   };
 
   const safeSdkOwner1 = await safeFactory.deploySafe({ safeAccountConfig });
+
   console.log(safeSdkOwner1);
   const safeAddress = await safeSdkOwner1.getAddress();
 

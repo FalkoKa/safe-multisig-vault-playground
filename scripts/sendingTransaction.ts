@@ -3,15 +3,16 @@ import { EthersAdapter } from '@safe-global/protocol-kit';
 import { MetaTransactionData } from '@safe-global/safe-core-sdk-types';
 import dotenv from 'dotenv';
 import { ethers } from 'ethers';
+import Safe from '@safe-global/protocol-kit';
 
 dotenv.config();
 
 const RPC_URL = process.env.RPC_ENDPOINT_URL;
 const provider = new ethers.JsonRpcProvider(RPC_URL);
-
+const SAFE_ADDRESS = '';
 const owner1Signer = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
 
-const ethAdapterOwner1 = new EthersAdapter({
+const ethAdapter = new EthersAdapter({
   ethers,
   signerOrProvider: owner1Signer,
 });
@@ -31,7 +32,9 @@ async function createTransaction(to: string, value: string) {
     value: amount,
   };
 
-  const safeTransaction = await safeSdkOwner1.createTransaction({
+  const safeSdk = await Safe.create({ ethAdapter, safeAddress: SAFE_ADDRESS });
+
+  const safeTransaction = await safeSdk.createTransaction({
     transactions: [safeTransactionData],
   });
 }
