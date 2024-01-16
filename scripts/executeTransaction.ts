@@ -10,11 +10,11 @@ dotenv.config();
 const RPC_URL = process.env.RPC_ENDPOINT_URL;
 const provider = new ethers.JsonRpcProvider(RPC_URL);
 const SAFE_ADDRESS = '0x9b7a9C49280a6AEAB7b9375ac0Cb5BEFd861F75B';
-const owner1Signer = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
+const ownerSigner = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
 
 const ethAdapter = new EthersAdapter({
   ethers,
-  signerOrProvider: owner1Signer,
+  signerOrProvider: ownerSigner,
 });
 
 const safeService = new SafeApiKit({
@@ -22,10 +22,33 @@ const safeService = new SafeApiKit({
 });
 
 async function executeTranaction() {
-  const safeSdkOwner1 = await Safe.create({
+  const safeSdkOwner = await Safe.create({
     ethAdapter,
     safeAddress: SAFE_ADDRESS,
   });
+
+  const pendingTransactions = (
+    await safeService.getPendingTransactions(SAFE_ADDRESS)
+  ).results;
+
+  const transaction = pendingTransactions[0];
+  const safeTxHash = transaction.safeTxHash;
+
+  const safeTransaction = await safeService.getTransaction(safeTxHash);
+  const executeTxResponse = await safeSdkOwner.executeTransaction(
+    safeTransaction
+  );
+  const receipt = await executeTxResponse.transactionResponse?.wait();
+
+  console.log('Transaction executed:');
+
+  const afterBalance = await safeSdkOwner.getBalance();
+  console.log(
+    `The final balance of the Safe: ${ethers.formatUnits(
+      afterBalance,
+      'ether'
+    )} ETH`
+  );
 }
 
 executeTranaction()
