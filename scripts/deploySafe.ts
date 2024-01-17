@@ -1,10 +1,10 @@
-import { ethers } from 'ethers';
-import { EthersAdapter } from '@safe-global/protocol-kit';
-import SafeApiKit from '@safe-global/api-kit';
-import { SafeFactory } from '@safe-global/protocol-kit';
-import { SafeAccountConfig } from '@safe-global/protocol-kit';
+import { ethers } from "ethers";
+import { EthersAdapter } from "@safe-global/protocol-kit";
+import SafeApiKit from "@safe-global/api-kit";
+import { SafeFactory } from "@safe-global/protocol-kit";
+import { SafeAccountConfig } from "@safe-global/protocol-kit";
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -32,7 +32,7 @@ async function main() {
   const safeAccountConfig: SafeAccountConfig = {
     owners: [
       await owner1Signer.getAddress(),
-      '0xfDC252985c13cA04865cf1546b66Df4FA33EC42a',
+      "0x986047959F42F6Ed84d2bB20A015A547F1753123",
     ],
     threshold: 2,
     // ... (Optional params)
@@ -43,7 +43,7 @@ async function main() {
   console.log(safeSdkOwner1);
   const safeAddress = await safeSdkOwner1.getAddress();
 
-  console.log('Your Safe has been deployed:');
+  console.log("Your Safe has been deployed:");
   console.log(`https://app.safe.global/sep:${safeAddress}`);
 }
 
