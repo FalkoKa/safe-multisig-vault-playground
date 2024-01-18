@@ -1,15 +1,15 @@
-import SafeApiKit from '@safe-global/api-kit';
-import { EthersAdapter } from '@safe-global/protocol-kit';
-import { MetaTransactionData } from '@safe-global/safe-core-sdk-types';
-import dotenv from 'dotenv';
-import { ethers } from 'ethers';
-import Safe from '@safe-global/protocol-kit';
+import SafeApiKit from "@safe-global/api-kit";
+import { EthersAdapter } from "@safe-global/protocol-kit";
+import { MetaTransactionData } from "@safe-global/safe-core-sdk-types";
+import dotenv from "dotenv";
+import { ethers } from "ethers";
+import Safe from "@safe-global/protocol-kit";
 
 dotenv.config();
 
 const RPC_URL = process.env.RPC_ENDPOINT_URL;
 const provider = new ethers.JsonRpcProvider(RPC_URL);
-const SAFE_ADDRESS = '0x9b7a9C49280a6AEAB7b9375ac0Cb5BEFd861F75B';
+const SAFE_ADDRESS = "0x9b7a9C49280a6AEAB7b9375ac0Cb5BEFd861F75B";
 const owner1Signer = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
 
 const ethAdapter = new EthersAdapter({
@@ -23,11 +23,11 @@ const safeService = new SafeApiKit({
 
 async function createAndProposeTransaction(to: string, value: string) {
   const destination = to;
-  const amount = ethers.parseUnits(value, 'ether').toString();
+  const amount = ethers.parseUnits(value, "ether").toString();
 
   const safeTransactionData: MetaTransactionData = {
     to: destination,
-    data: '0x',
+    data: "0x",
     value: amount,
   };
 
@@ -51,13 +51,9 @@ async function createAndProposeTransaction(to: string, value: string) {
   });
 }
 
-async function getPendingTransactionAndConfirm() {}
-
-async function executeTranaction() {}
-
 createAndProposeTransaction(
-  '0xfDC252985c13cA04865cf1546b66Df4FA33EC42a',
-  '0.01'
+  "0xfDC252985c13cA04865cf1546b66Df4FA33EC42a",
+  "0.01"
 )
   .then(() => process.exit(0))
   .catch((error) => {
