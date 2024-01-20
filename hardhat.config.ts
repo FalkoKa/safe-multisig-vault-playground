@@ -2,7 +2,7 @@ import { HardhatUserConfig, task } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
 
 const config: HardhatUserConfig = {
-  solidity: '0.7.0',
+  solidity: '0.7.6',
 };
 
 task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
